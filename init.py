@@ -1,10 +1,12 @@
+import os
+
 import mysql.connector
 from mysql.connector import errorcode
 
 DB_NAME= "Labs"
 
 try:
-  cnx = mysql.connector.connect(user='root',password='sqldata',host='127.0.0.1',charset='utf8mb4')
+  cnx = mysql.connector.connect(user='root',password=os.environ.get("sqlpass"),host='127.0.0.1',charset='utf8mb4')
   cursor = cnx.cursor()
 except mysql.connector.Error as err:
   if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
@@ -33,6 +35,9 @@ except mysql.connector.Error as err:
         exit(1)
 
 TABLES = {}
+
+tests = "'Alcohol, breath','Alcohol, saliva','Allergen specific IgE and/or mixed allergen panel','Amphetamines','Apolipoprotein E (APOE) gene','Barbiturates','Benzodiazepines','Beta-glucocerebrosidase (GBA)','Bilirubin, urine','BRCA mutations','Buprenorphine','Cannabinoids (THC)','Carbon Monoxide','Chloride','Cholesterol','Cocaine metabolites','Creatinine','CYP2C19 genotype','CYP2C9 genotype','CYP2D6 genotype','CYP3A5 genotype','DPYD genotype','EDDP (methadone metabolite)','Estrone-3 glucuronide','Ethanol (alcohol)','Factor II','Factor V','Fecal occult blood','Fern test, saliva','Follicle stimulating hormone (FSH)','Fructosamine','Glucose','Glucose monitoring','Glucose, fluid (approved by FDA for prescription h','Glucose, urine','Glycated hemoglobin, total','Glycosylated Hemoglobin (Hgb A1c)','hCG, serum, qualitative','hCG, Urine','HDL cholesterol','Hemoglobin','Hemoglobin A1','HIV antibodies','Ketone, blood','Ketone, urine','Lactic acid (lactate)','LDL cholesterol','LRRK2 gene','Leukocyte esterase, urinary','Luteinizing hormone (LH)','Methadone','Methadone metabolite (EDDP)','Methamphetamine/amphetamine','Methamphetamines','Methylenedioxymethamphetamine (MDMA)','Microalbumin','Morphine','MUTYH gene','Nitrite, urine','Opiates','Ovulation test (LH)','Oxycodone','pH','pH, urine','Phencyclidine (PCP)','Phenobarbital','Propoxyphene','Protein, total, urine','Semen','SERPINA1 gene','Solute carrier organic anion transporter family','TPMT genotype','Tricyclic antidepressants','Triglyceride','UGT1A1 genotype','Urinary protein, qualitative','Urine dipstick or tablet analytes, nonautomated','Urine hCG','Urine qualitative dipstick bilirubin','Urine qualitative dipstick blood','Urine qualitative dipstick creatinine','Urine qualitative dipstick glucose','Urine qualitative dipstick ketone','Urine qualitative dipstick leukocytes','Urine qualitative dipstick nitrite','Urine qualitative dipstick Ph','Urine qualitative dipstick protein','Urine qualitative dipstick urobilinogen','Urobilinogen, urine','Vaginal pH','Whole blood qualitative dipstick glucose'"
+
 
 TABLES['patient_essentials'] = ("CREATE TABLE patient_essentials ("
 	" code SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT NOT NULL,"
@@ -186,14 +191,14 @@ TABLES['schedule'] = ("CREATE TABLE schedule ("
 
 TABLES['sched_tests'] = ("CREATE TABLE sched_tests ("
 	" sc_code smallint UNSIGNED PRIMARY KEY NOT NULL,"
-	" test varchar(50) PRIMARY KEY NOT NULL,"
+	" test ENUM(" + tests + ") PRIMARY KEY NOT NULL,"
 	" FOREIGN KEY (sc_code) REFERENCES schedule(code)"
 	" ON UPDATE CASCADE ON DELETE CASCADE);")
 
 TABLES['tests'] = ("CREATE TABLE tests ("
 	" code smallint UNSIGNED NOT NULL,"
     " p_code smallint UNSIGNED NOT NULL,"
-    " t_type varchar(50) NOT NULL,"
+    " t_type ENUM(" + tests + ") NOT NULL,"
     " start_date date NOT NULL,"
     " cost smallint UNSIGNED NOT NULL,"
     " deliver_date date,"
@@ -206,6 +211,7 @@ TABLES['users'] = ("CREATE TABLE users ("
 	" code smallint UNSIGNED PRIMARY KEY AUTO_INCREMENT NOT NULL,"
     " username varchar(51) UNIQUE NOT NULL,"
     " hash char(32) NOT NULL,"
+    " token char(32) NOT NULL,"
     " email varchar(70) NOT NULL,"
     " p_code smallint UNSIGNED NOT NULL,"
     " FOREIGN KEY (p_code) REFERENCES patient_essentials(code)"
