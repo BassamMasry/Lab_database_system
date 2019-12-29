@@ -1,0 +1,1 @@
+'ALX','ASN','AST','BA','BH','BNS','C','DK','DT','FYM','GH','GZ','IS','JS','KB','KFS','KN','MN','MNF','MT','PTS','SHG','SHR','SIN','SUZ','WAD'

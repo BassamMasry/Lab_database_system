@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Quote
+{% endblock %}
+
+{% block main %}
+    <form action="/modify_devices" method="post">
+        <div class="form-group">
+            <input autocomplete="off" autofocus class="form-control" name="code" placeholder="device code" type="text">
+        </div>
+        <div class="form-group">
+            <input autocomplete="off" autofocus class="form-control" name="maint_date" type="date">
+        </div>
+        <button class="btn btn-primary" type="submit">Sumbit</button>
+    </form>
+{% endblock %}

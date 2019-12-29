@@ -128,7 +128,7 @@ def login():
             return apology("invalid username and/or password", 403)
 
         # Remember which user has logged in
-        session["tokem"] = rows[0]["token"]
+        session["token"] = rows[0]["token"]
         session["username"] = rows[0]["username"]
 
         # Redirect user to home page
@@ -183,23 +183,20 @@ def register():
         
         token = binascii.hexlify(os.urandom(16))
         
-        if not request.form.get("name"):
-            db.execute("insert into patient_essentials (name) values (:name);"
-                       "insert into patient_extras (SSN, sex, phone, bdate, blood_type, street, district, province)"
-                       "values (:SSN, :sex, :phone, :bdate, :blood_type, :street, :district, :province)",
-                       name = request.form.get("name"), SSN = request.form.get("SSN"), sex = request.form.get("sex"),
-                       phone = request.form.get("phone"), blood_type = request.form.get("blood_typy"),
-                       street = request.form.get("street"), district = request.form.get("district"), province = request.form.get("province"))
+        if not request.form.get("insurance") or request.form.get("insurance")== '':
+            db.execute("insert into patient_essentials (name) values ('{name}');".format(name = request.form.get("name")))
+            db.execute("insert into patient_extras (SSN, sex, phone, bdate, blood_type, street, district, province)"
+                       "values ('{SSN}', '{sex}', '{phone}', '{bdate}', '{blood_type}', '{street}', '{district}', '{province}')".format(SSN = request.form.get("SSN"), sex = request.form.get("sex"),
+                       phone = request.form.get("phone"), bdate = request.form.get("bdate"), blood_type = request.form.get("blood_type"),
+                       street = request.form.get("street"), district = "TODO", province = request.form.get("province")))
         else:
-            db.execute("insert into patient_essentials (name, insurance) values (:name, :insurance);"
-                       "insert into patient_extras (SSN, sex, phone, bdate, blood_type, street, district, province)"
-                       "values (:SSN, :sex, :phone, :bdate, :blood_type, :street, :district, :province)",
-                       name = request.form.get("name"), insurance = request.form.get("insurance"), SSN = request.form.get("SSN"),
-                       sex = request.form.get("sex"), phone = request.form.get("phone"), blood_type = request.form.get("blood_typy"),
-                       street = request.form.get("street"), district = request.form.get("district"), province = request.form.get("province"))
+            db.execute("insert into patient_essentials (name, insurance) values ('{name}', '{insurance}');".format(name = request.form.get("name"), insurance = request.form.get("insurance")))
+            db.execute("insert into patient_extras (SSN, sex, phone, bdate, blood_type, street, district, province)"
+                       "values ('{SSN}', '{sex}', '{phone}', '{bdate}', '{blood_type}', '{street}', '{district}', '{province}')".format(SSN = request.form.get("SSN"),
+                       sex = request.form.get("sex"), phone = request.form.get("phone"), bdate = request.form.get("bdate"), blood_type = request.form.get("blood_type"),
+                       street = request.form.get("street"), district = "TODO", province = request.form.get("province")))
 
-        db.execute("insert into users (username, hash, token, email) values (:username, :hashed, :token, :email)",
-                    username = request.form.get("username"), hashed=hasher, token = token, email = request.form.get("email"))
+        db.execute("insert into users (username, hash, token, email) values ('{username}', '{hashed}', '{token}', '{email}')".format(username = request.form.get("username"), hashed=hasher, token = token, email = request.form.get("email")))
         
         # automatically login
         session["token"] = token

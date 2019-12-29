@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Quote
+{% endblock %}
+
+{% block main %}
+    <form action="/patient_access" method="post">
+        <div class="form-group">
+            <input autocomplete="off" autofocus class="form-control" name="name" placeholder="Full name" type="text">
+        </div>
+        <button class="btn btn-primary" type="submit">Sumbit</button>
+    </form>
+{% endblock %}

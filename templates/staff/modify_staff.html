@@ -1,0 +1,63 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Quote
+{% endblock %}
+
+{% block main %}
+    <form action="/modify_staff" method="post">
+        <div class="form-group">
+            <input autocomplete="off" class="form-control" id="salary" name="salary" placeholder="Salary" type="text">
+        </div>
+        <div class="form-group">
+            <input autocomplete="off" class="form-control" id="role" name="role" placeholder="role" type="text">
+        </div>
+        <div class="form-group">
+            <input autocomplete="off" class="form-control" id="address" name="street" placeholder="Street address" type="text">
+        </div>
+        <div class="form-group">
+        <select id="province" name="province" >
+			<option value="">Select state</option>
+			<option value="ALX">Al Iskandariyah</option>
+			<option value="ASN">Aswan</option>
+			<option value="AST">Asyut</option>
+			<option value="BA">Al Bahr al Ahmar</option>
+			<option value="BH">Al Buhayrah</option>
+			<option value="BNS">Bani Suwayf</option>
+			<option value="C">Al Qahirah</option>
+			<option value="DK">Ad Daqahliyah</option>
+			<option value="DT">Dumyat</option>
+			<option value="FYM">Al Fayyum</option>
+			<option value="GH">Al Gharbiyah</option>
+			<option value="GZ">Al Jizah</option>
+			<option value="IS">Al Isma`iliyah</option>
+			<option value="JS">Janub Sina´</option>
+			<option value="KB">Al Qalyubiyah</option>
+			<option value="KFS">Kafr ash Shaykh</option>
+			<option value="KN">Qina</option>
+			<option value="MN">Al Minya</option>
+			<option value="MNF">Al Minufiyah</option>
+			<option value="MT">Matruh</option>
+			<option value="PTS">Bur Sa`id</option>
+			<option value="SHG">Suhaj</option>
+			<option value="SHR">Ash Sharqiyah</option>
+			<option value="SIN">Shamal Sina´</option>
+			<option value="SUZ">As Suways</option>
+			<option value="WAD">Al Wadi al Jadid</option>
+			</select>
+		</div>
+		<div class="form-group">
+            <input autocomplete="off" class="form-control" id="exp_years" name="exp_years" placeholder="Experience years" type="text">
+        </div>
+        <div class="form-group">
+            <input autocomplete="off" class="form-control" id="phone" name="phone" placeholder="Phone number" type="text">
+        </div>
+        <div class="form-group">
+            <input autocomplete="off" class="form-control" id="retirement_date" name="retirement_date" type="date">
+        </div>
+        <div class="form-group">
+			<textarea rows = "5" maxlength = "250" name = "qualification">Enter Qualifications here...</textarea>
+        </div>
+        <button class="btn btn-primary" type="submit">Sumbit</button>
+    </form>
+{% endblock %}

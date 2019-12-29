@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    History
+{% endblock %}
+
+{% block main %}
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">ID</th>
+          <th scope="col">SSN</th>
+          <th scope="col">name</th>
+          <th scope="col">sex</th>
+          <th scope="col">Birth date</th>
+          <th scope="col">position</th>
+          <th scope="col">Salary</th>
+          <th scope="col">Experience years</th>
+          <th scope="col">Join date</th>
+          <th scope="col">Retirement date</th>
+          <th scope="col">Days of work</th>
+          <th scope="col">Street</th>
+          <th scope="col">Province</th>
+          <th scope="col">Phone</th>
+          <th scope="col">Qualifications</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in rows %}
+        <tr>
+        <th scope="row">{{loop.index}}</th>
+        {%for val in row.values() %}
+        <td>{{val}}</td>
+        {% endfor %}
+        <tr>
+        {% endfor %}
+      </tbody>
+    </table>
+{% endblock %}

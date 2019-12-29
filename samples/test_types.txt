@@ -1,0 +1,189 @@
+<select name="Analyte_ID" id="Clia_Analyte">
+			<option value="">	
+		
+			</option><option value="486">Alcohol, breath
+		
+			</option><option value="252">Alcohol, saliva
+		
+			</option><option value="392">Allergen specific IgE and/or mixed allergen panel 
+		
+			</option><option value="41">Amphetamines
+		
+			</option><option value="1070">Apolipoprotein E (APOE) gene
+		
+			</option><option value="103">Barbiturates
+		
+			</option><option value="101">Benzodiazepines
+		
+			</option><option value="1061">Beta-glucocerebrosidase (GBA)
+		
+			</option><option value="409">Bilirubin, urine
+		
+			</option><option value="1029">BRCA mutations
+		
+			</option><option value="895">Buprenorphine
+		
+			</option><option value="84">Cannabinoids (THC)
+		
+			</option><option value="1087">Carbon Monoxide
+		
+			</option><option value="171">Chloride
+		
+			</option><option value="161">Cholesterol
+		
+			</option><option value="86">Cocaine metabolites
+		
+			</option><option value="159">Creatinine
+		
+			</option><option value="491">Cytochrome P450 2C19 (CYP2C19) genotype
+		
+			</option><option value="889">Cytochrome P450 2C9 (CYP2C9) genotype
+		
+			</option><option value="492">Cytochrome P450 2D6 (CYP2D6) genotype
+		
+			</option><option value="1123">Cytochrome P450 3A5 (CYP3A5) genotype
+		
+			</option><option value="1125">Dihydropyrimidine dehydrogenase (DPYD) genotype
+		
+			</option><option value="236">EDDP (methadone metabolite)
+		
+			</option><option value="494">Estrone-3 glucuronide
+		
+			</option><option value="88">Ethanol (alcohol)
+		
+			</option><option value="1038">Factor II
+		
+			</option><option value="1039">Factor V
+		
+			</option><option value="274">Fecal occult blood
+		
+			</option><option value="249">Fern test, saliva
+		
+			</option><option value="26">Follicle stimulating hormone (FSH)
+		
+			</option><option value="184">Fructosamine
+		
+			</option><option value="122">Glucose
+		
+			</option><option value="116">Glucose monitoring devices (FDA cleared/home use)
+		
+			</option><option value="401">Glucose monitoring devices (prescription use only)
+		
+			</option><option value="72">Glucose, fluid (approved by FDA for prescription h
+		
+			</option><option value="422">Glucose, urine
+		
+			</option><option value="208">Glycated hemoglobin, total
+		
+			</option><option value="172">Glycosylated Hemoglobin (Hgb A1c)
+		
+			</option><option value="261">hCG, serum, qualitative
+		
+			</option><option value="370">hCG, Urine
+		
+			</option><option value="121">HDL cholesterol
+		
+			</option><option value="16">Hemoglobin
+		
+			</option><option value="460">Hemoglobin A1
+		
+			</option><option value="701">HIV antibodies
+		
+			</option><option value="124">Ketone, blood
+		
+			</option><option value="352">Ketone, urine
+		
+			</option><option value="24">Lactic acid (lactate)
+		
+			</option><option value="182">LDL cholesterol
+		
+			</option><option value="1069">Leucine-rich repeat kinase 2 (LRRK2) gene
+		
+			</option><option value="423">Leukocyte esterase, urinary
+		
+			</option><option value="27">Luteinizing hormone (LH)
+		
+			</option><option value="90">Methadone
+		
+			</option><option value="927">Methadone metabolite (EDDP)
+		
+			</option><option value="92">Methamphetamine/amphetamine
+		
+			</option><option value="100">Methamphetamines
+		
+			</option><option value="256">Methylenedioxymethamphetamine (MDMA)
+		
+			</option><option value="3">Microalbumin
+		
+			</option><option value="143">Morphine
+		
+			</option><option value="1137">MUTYH gene
+		
+			</option><option value="407">Nitrite, urine
+		
+			</option><option value="87">Opiates
+		
+			</option><option value="30">Ovulation test (LH) By visual color comparison
+		
+			</option><option value="285">Oxycodone
+		
+			</option><option value="134">pH
+		
+			</option><option value="408">pH, urine
+		
+			</option><option value="85">Phencyclidine (PCP)
+		
+			</option><option value="229">Phenobarbital
+		
+			</option><option value="91">Propoxyphene
+		
+			</option><option value="245">Protein, total, urine
+		
+			</option><option value="364">Semen
+		
+			</option><option value="1074">SERPINA1 gene
+		
+			</option><option value="1124">Solute carrier organic anion transporter family me
+		
+			</option><option value="1126">Thiopurine methyltransferase (TPMT) genotype
+		
+			</option><option value="246">Tricyclic antidepressants
+		
+			</option><option value="21">Triglyceride
+		
+			</option><option value="852">UDP glucuronosyltransferase 1A1 (UGT1A1) genotype
+		
+			</option><option value="448">Urinary protein, qualitative
+		
+			</option><option value="186">Urine dipstick or tablet analytes, nonautomated
+		
+			</option><option value="125">Urine hCG by visual color comparison tests
+		
+			</option><option value="264">Urine qualitative dipstick bilirubin
+		
+			</option><option value="265">Urine qualitative dipstick blood
+		
+			</option><option value="330">Urine qualitative dipstick creatinine
+		
+			</option><option value="266">Urine qualitative dipstick glucose
+		
+			</option><option value="1">Urine qualitative dipstick ketone
+		
+			</option><option value="267">Urine qualitative dipstick leukocytes
+		
+			</option><option value="268">Urine qualitative dipstick nitrite
+		
+			</option><option value="269">Urine qualitative dipstick Ph
+		
+			</option><option value="270">Urine qualitative dipstick protein
+		
+			</option><option value="271">Urine qualitative dipstick urobilinogen
+		
+			</option><option value="410">Urobilinogen, urine
+		
+			</option><option value="42">Vaginal pH
+		
+			</option><option value="941">Whole blood qualitative dipstick glucose
+		
+	</option>
+</select>
