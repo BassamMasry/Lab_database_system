@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Add result
+{% endblock %}
+
+{% block main %}
+
+    <form action="/add_result" method="post">
+        <div class="form-group">
+            <input autocomplete="off" autofocus class="form-control" name="code" placeholder="Test code" type="text">
+        </div>
+        <div class="form-group">
+            <input autocomplete="off" class="form-control" name="result" placeholder="Result" type="text">
+        </div>
+        <div class="form-group">
+
+{% endblock %}

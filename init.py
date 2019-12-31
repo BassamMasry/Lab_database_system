@@ -62,12 +62,6 @@ TABLES['patient_extras'] = ("CREATE TABLE patient_extras ("
 	" FOREIGN KEY (p_code) REFERENCES patient_essentials(code)"
 	" ON UPDATE CASCADE ON DELETE CASCADE);")
 
-TABLES['patient_medcon'] = ("CREATE TABLE patient_medcon ("
-	" p_code smallint UNSIGNED PRIMARY KEY NOT NULL,"
-	" con varchar(40) NOT NULL DEFAULT '0',"
-	" FOREIGN KEY (p_code) REFERENCES patient_essentials(code)"
-	" ON UPDATE CASCADE ON DELETE CASCADE);")
-	
 TABLES['device_essentials'] = ("CREATE TABLE device_essentials ("
 	" code SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT NOT NULL,"
 	" serial INT UNSIGNED NOT NULL DEFAULT 0,"

@@ -1,5 +1,5 @@
-<select name="Analyte_ID" id="Clia_Analyte">
-			<option value="">	
+<select name="test" id="test_select">
+			<option value="">Select test	
 		
 			</option><option value="486">Alcohol, breath
 		
