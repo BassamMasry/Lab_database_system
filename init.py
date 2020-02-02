@@ -85,12 +85,6 @@ TABLES['device_description'] = ("CREATE TABLE device_description ("
 	" FOREIGN KEY (d_code) REFERENCES device_essentials(code)"
 	" ON UPDATE CASCADE ON DELETE CASCADE);")
 
-TABLES['device_datasheet'] = ("CREATE TABLE device_datasheet ("
-	" d_code smallint UNSIGNED PRIMARY KEY NOT NULL,"
-	" file_path varchar(255) NOT NULL DEFAULT '0',"
-	" FOREIGN KEY (d_code) REFERENCES device_essentials(code)"
-	" ON UPDATE CASCADE ON DELETE CASCADE);")
-		
 TABLES['analytics'] = ("CREATE TABLE analytics ("
     " code SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT NOT NULL,"
     " name varchar(80) NOT NULL,"
@@ -164,7 +158,7 @@ TABLES['tests'] = ("CREATE TABLE tests ("
 TABLES['users'] = ("CREATE TABLE users ("
 	" code smallint UNSIGNED PRIMARY KEY AUTO_INCREMENT NOT NULL,"
     " username varchar(51) UNIQUE NOT NULL,"
-    " hash char(32) NOT NULL,"
+    " hash char(74) NOT NULL,"
     " token char(32) NOT NULL,"
     " email varchar(70) NOT NULL,"
     " p_code smallint UNSIGNED NOT NULL,"
@@ -172,8 +166,10 @@ TABLES['users'] = ("CREATE TABLE users ("
 	" ON UPDATE CASCADE ON DELETE CASCADE);")
 
 TABLES['log'] = ("CREATE TABLE log ("
-	" code mediumint UNSIGNED PRIMARY KEY NOT NULL,"
+	" code mediumint UNSIGNED PRIMARY KEY AUTO_INCREMENT NOT NULL,"
 	" admin char(25) NOT NULL,"
+	" type ENUM('analytic', 'device', 'staff', 'test', 'user'),"
+	" t_code MEDIUMINT NOT NULL,"
     " operation ENUM('add', 'delete', 'modify') NOT NULL,"
     " date datetime NOT NULL);")
 

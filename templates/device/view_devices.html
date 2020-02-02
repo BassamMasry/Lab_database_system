@@ -11,7 +11,8 @@
           <th scope="col">#</th>
           <th scope="col">Code</th>
           <th scope="col">Name</th>
-          <th scope="col">Manufacturer</th>
+          <th scope="col">Model</th>
+          <th scope="col">Manufacturer</th>          
           <th scope="col">Serial</th>
           <th scope="col">Country</th>
           <th scope="col">Type</th>
@@ -24,7 +25,7 @@
         {% for row in rows %}
         <tr>
         <th scope="row">{{loop.index}}</th>
-        {%for val in row.values() %}
+        {%for val in row %}
         <td>{{val}}</td>
         {% endfor %}
         <tr>

@@ -6,14 +6,14 @@
 
 {% block main %}
     <ul class="list-group">
-      <li class="list-group-item">Name: {{acc["name"]}}</li>
-      <li class="list-group-item">SSN: {{acc["SSN"]}}</li>
-      <li class="list-group-item">Sex: {{acc["sex"]}}</li>
-      <li class="list-group-item">Birth date {{acc["Bdate"]}}</li>
-      <li class="list-group-item">Phone{{acc["phone"]}}</li>
-      <li class="list-group-item">Insurance id{{acc["insurance"]}}</li>
-      <li class="list-group-item">Blood type {{acc["blood_type"]}}</li>
-      <li class="list-group-item">Street address {{acc["street"]}}</li>
-      <li class="list-group-item">Province {{acc["province"]}}</li>
+      <li class="list-group-item">Name: {{row[0]}}</li>
+      <li class="list-group-item">SSN: {{row[1]}}</li>
+      <li class="list-group-item">Sex: {{row[2]}}</li>
+      <li class="list-group-item">Birth date: {{row[3]}}</li>
+      <li class="list-group-item">Phone: {{row[4]}}</li>
+      <li class="list-group-item">Insurance id: {{row[5]}}</li>
+      <li class="list-group-item">Blood type: {{row[6]}}</li>
+      <li class="list-group-item">Street address: {{row[7]}}</li>
+      <li class="list-group-item">Province: {{row[8]}}</li>
     </ul>
 {% endblock %}

@@ -38,22 +38,20 @@
                         <li class="nav-item"><a class="nav-link" href="/devices">Devices</a></li>
                         <li class="nav-item"><a class="nav-link" href="/analytics">Analytics</a></li>
                         <li class="nav-item"><a class="nav-link" href="/staff">Staff</a></li>
-                    </ul>
-						<li class="nav-item"><a class="nav-link" href="/depend">Dependent</a></li>
-                    </ul>
 						<li class="nav-item"><a class="nav-link" href="/schedule">Schedule</a></li>
-                    </ul>
 						<li class="nav-item"><a class="nav-link" href="/tests">Tests</a></li>
-                    </ul>
 						<li class="nav-item"><a class="nav-link" href="/log">Logs</a></li>
-                    </ul>
+					</ul>
                     <ul class="navbar-nav ml-auto mt-2">
                         <li class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li>
                     </ul>
                 {% elif session.token %}
-					<ul class="navbar-nav ml-auto mt-2">
+					<ul class="navbar-nav mr-auto mt-2">
                         <li class="nav-item"><a class="nav-link" href="/book_test">Book tests</a></li>
                         <li class="nav-item"><a class="nav-link" href="/results">Results</a></li>
+                    </ul>
+                    <ul class="navbar-nav ml-auto mt-2">
+                        <li class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li>
                     </ul>
                 {% else %}
                     <ul class="navbar-nav ml-auto mt-2">
@@ -72,7 +70,7 @@
             </header>
         {% endif %}
 
-        <main class="container p-5">
+        <main class="container-fluid p-5">
             {% block main %}{% endblock %}
         </main>
 
