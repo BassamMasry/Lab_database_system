@@ -137,8 +137,6 @@ def login():
         # Query database for username
         db.execute("SELECT * FROM users WHERE username = '{username}' LIMIT 1".format(username=user))
         rows = db.fetchone()
-        #Add stripped string to hash again
-        print(rows)
 
         # Ensure username exists and password is correct
         if rows is None:
@@ -204,9 +202,6 @@ def register():
         
         db.execute("SELECT username FROM users WHERE username = '{username}' LIMIT 1;".format(username=user))
         rows = db.fetchone()
-        # debug line
-        print("Fetched one")
-        print(rows)
         
         if rows:
             return apology("Username already exists", 400)
@@ -902,28 +897,16 @@ def del_depend():
 '''
 # Dependents part done
 
+
+# Schedule can be an improvement in next versions
+'''
 @app.route("/schedule")
 @admin_required
 def schedule():
     check_admin_cookies()
-    # Make row list to include data of patient
-    rows = []
-    db.execute("SELECT schedule.code,name,date,test FROM schedule INNER JOIN patient_essentials ON p_code = patient_essentials.code INNER JOIN sched_tests ON schedule.code = sc_code;")
-    rets = db.fetchall()
-    for ret in rets:
-        app = [None] * 4
-        # Assign ID to first element
-        app[0] = ret[0]
-        # Assign name
-        app[2] = ret[3]
-        # Assign Date
-        app[1] = ret[1]
-        # Assign test
-        app[3] = ret[3]
-        rows.append(app)
-    
-    return render_template("control/schedule_view.html", rows = rows)
-
+    #TODO
+    return apology("Not set", 400)
+'''
 
 @app.route("/tests")
 @admin_required
@@ -936,22 +919,8 @@ def tests():
 @admin_required
 def view_tests():
     check_admin_cookies()
-    # Make row list to include data of patient
-    rows = []
-    db.execute("SELECT schedule.code,name,date,test FROM schedule INNER JOIN patient_essentials ON p_code = patient_essentials.code INNER JOIN sched_tests ON schedule.code = sc_code;")
-    rets = db.fetchall()
-    for ret in rets:
-        app = [None] * 4
-        # Assign ID to first element
-        app[0] = ret[0]
-        # Assign name
-        app[2] = ret[3]
-        # Assign Date
-        app[1] = ret[1]
-        # Assign test
-        app[3] = ret[3]
-        rows.append(app)
-    
+    db.execute("SELECT * FROM tests  ORDER BY code")
+    rows = db.fetchall()
     return render_template("tests/view_tests.html", rows = rows)
 
 
@@ -960,12 +929,16 @@ def view_tests():
 def add_result():
     check_admin_cookies()
     if request.method == "GET":
-        #TODO
-        return apology("Not set", 400)
+        return render_template("tests/add_result.html")
     
     if request.method == "POST":
-        #TODO
-        return apology("Not set", 400)
+        # Update modify date
+        db.execute("UPDATE tests SET deliver_date = NOW(), results = '{result}' WHERE code = '{coder}';".format(result = request.form.get("result"), coder = request.form.get("code")))
+        # Insert log operation
+        logger(db,session.get("admin"),'test',request.form.get("code"),'modify')
+        # commit insertions
+        cnx.commit()
+        return redirect("/")
 
 # medical condition can be an improvement in next versions
 '''
@@ -991,33 +964,50 @@ def log():
     return render_template("control/log.html", rows = rows)
     
 
-@app.route("/book_test")
+@app.route("/book_test", methods=["GET", "POST"])
 @login_required
 def book_test():
     check_cookies()
-    #TODO
-    return apology("Not set", 400)
-
-
-@app.route("/booking", methods=["GET", "POST"])
-@admin_required
-def booking():
-    check_cookies()
     if request.method == "GET":
-        #TODO
-        return apology("Not set", 400)
+        return render_template("user/book_test.html")
     
     if request.method == "POST":
-        #TODO
-        return apology("Not set", 400)
-
+        test = request.form.get("test")
+        date = request.form.get("date")
+        db.execute("SELECT code FROM users WHERE token = '{token}' LIMIT 1"
+               .format(token = session.get("token")))
+        code = db.fetchone()[0]
+        
+        # ensure the test is registered once for a current patient and a current date
+        try:
+            db.execute("INSERT INTO tests (p_code, t_type, start_date)"
+                   "values ('{coder}', '{test}', '{date}');".format(coder = code, test = test, date = date))
+            db.execute("SELECT max(code) FROM tests where p_code = '{coder}';".format(coder = code))
+            test_code = db.fetchone()[0]
+            # Insert log operation
+            logger(db,'user: ' + str(session.get("username")),'test',test_code,'add')
+            
+            cnx.commit()
+            
+            return redirect("/")
+            
+        except mysql.connector.Error as err:
+            if err.errno == 1062:
+                return apology("Already registered this test on that date", 400)
+            else:
+                return apology("Unknown error happened", 400)
+        
 
 @app.route("/results")
 @login_required
 def results():
     check_cookies()
-    #TODO
-    return apology("Not set", 400)
+    db.execute("SELECT code FROM users WHERE token = '{token}' LIMIT 1"
+               .format(token = session.get("token")))
+    code = db.fetchone()[0]
+    db.execute("SELECT code, t_type, start_date, deliver_date, results FROM tests WHERE p_code = '{coder}'  ORDER BY code".format(coder = code))
+    rows = db.fetchall()
+    return render_template("user/result.html", rows = rows)
     
 
 

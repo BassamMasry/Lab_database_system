@@ -127,6 +127,9 @@ TABLES['s_qualifications'] = ("CREATE TABLE s_qualifications ("
 	" FOREIGN KEY (s_code) REFERENCES staff(code)"
 	" ON UPDATE CASCADE ON DELETE CASCADE);")
 
+
+# These two tables can be used in a future version where the schedule is more sophisticated
+'''
 TABLES['schedule'] = ("CREATE TABLE schedule ("
 	" code smallint UNSIGNED AUTO_INCREMENT NOT NULL,"
     " a_code smallint UNSIGNED NOT NULL,"
@@ -146,15 +149,19 @@ TABLES['sched_tests'] = ("CREATE TABLE sched_tests ("
 	" FOREIGN KEY (sc_code) REFERENCES schedule(code)"
 	" ON UPDATE CASCADE ON DELETE CASCADE);")
 
+'''
+
 TABLES['tests'] = ("CREATE TABLE tests ("
-	" code smallint UNSIGNED NOT NULL,"
+	" code smallint UNSIGNED AUTO_INCREMENT NOT NULL,"
     " p_code smallint UNSIGNED NOT NULL,"
     " t_type ENUM(" + tests + ") NOT NULL,"
     " start_date date NOT NULL,"
-    " cost smallint UNSIGNED NOT NULL,"
+    # cost can be in a future version
+    # " cost smallint UNSIGNED NOT NULL,"
     " deliver_date date,"
     " results varchar(20) NOT NULL DEFAULT '0',"
-    " UNIQUE index (p_code,t_type,start_date),"
+    " KEY (code),"
+    " PRIMARY KEY (p_code,t_type,start_date),"
     " FOREIGN KEY (p_code) REFERENCES patient_essentials(code)"
 	" ON UPDATE CASCADE ON DELETE CASCADE);")
 

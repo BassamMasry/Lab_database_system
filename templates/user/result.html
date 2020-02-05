@@ -10,9 +10,10 @@
         <tr>
           <th scope="col">#</th>
           <th scope="col">ID</th>
-          <th scope="col">Patient code</th>
           <th scope="col">Test type</th>
+          <!-- cost can be a future improvement
           <th scope="col">Cost</th>
+          -->
           <th scope="col">Start date</th>
           <th scope="col">Delivery date</th>
           <th scope="col">Result</th>
@@ -22,7 +23,7 @@
         {% for row in rows %}
         <tr>
         <th scope="row">{{loop.index}}</th>
-        {%for val in row.values() %}
+        {%for val in row%}
         <td>{{val}}</td>
         {% endfor %}
         <tr>
