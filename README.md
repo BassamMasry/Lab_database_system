@@ -13,6 +13,15 @@ A full lab's database management system for hospitals
 * werkzeug.security (for password functionalities)
 * mysql.connector (The main SQL interface)
 
+## How to use the app:
+* FOR FIRST TIME ONLY: execute init.py to setup the database
+* Open a terminal window
+* Modify export.txt file as needed
+* Enter the commands from export.txt in the terminal
+* execute "flask run"
+* copy the generated link in a browser
+* use as desired
+
 ### To install dependencies please execute the command "pip3 install flask" and download mysql connector from
 https://dev.mysql.com/downloads/connector/python/
 
@@ -30,12 +39,3 @@ export FLASK_DEBUG=1
 flask run"
 {note: the export statement is set every time a new shell environment is started}
 see exports.txt for more help
-
-## How to use the app:
-* FOR FIRST TIME ONLY: execute init.py to setup the database
-* Open a terminal window
-* Modify export.txt file as needed
-* Enter the commands from export.txt in the terminal
-* execute "flask run"
-* copy the generated link in a browser
-* use as desired
