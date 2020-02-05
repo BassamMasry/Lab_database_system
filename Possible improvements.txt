@@ -1,0 +1,15 @@
+Use try except in all SQL queries and cancel commit when except is executed
+
+Add sanity checks for all input fields
+
+return names of countries instead of codes
+
+Add "number" field to devices to indicate how many units we have
+
+Add flash message "Done" or "Successful" for every successful operation
+
+Analytics and staff templates could be one extended template to avoid repetation
+
+Add support for dependents
+
+Add a more sophisticated schedule
