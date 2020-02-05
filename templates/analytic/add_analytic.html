@@ -8,12 +8,15 @@
 
     <form action="/add_analytic" method="post" id="form">
         <div class="form-group">
+			<label for="name">Name</label>
             <input autocomplete="off" class="form-control" id="name" name="name" placeholder="Your full name" type="text">
         </div>
         <div class="form-group">
+			<label for="SSN">SSN</label>
             <input autocomplete="off" class="form-control" id="SSN" name="SSN" placeholder="Social security number" type="text">
         </div>
         <div class="form-group">
+			<label for="sex">Sex</label>
             <select id="sex" name="sex">
 				<option value="">Select sex</option>
 				<option value="male">Male</option>
@@ -21,18 +24,23 @@
 			</select>
         </div>
         <div class="form-group">
+			<label for="bdate">Birth date</label>
             <input autocomplete="off" class="form-control" id="bdate" name="bdate" type="date">
         </div>
         <div class="form-group">
+			<label for="position">Position</label>
             <input autocomplete="off" class="form-control" id="position" name="position" placeholder="position" type="text">
         </div>
         <div class="form-group">
+			<label for="phone">Phone</label>
             <input autocomplete="off" class="form-control" id="phone" name="phone" placeholder="Phone number" type="text">
         </div>
         <div class="form-group">
+			<label for="address">Address</label>
             <input autocomplete="off" class="form-control" id="address" name="street" placeholder="Street address" type="text">
         </div>
         <div class="form-group">
+			<label for="province">Province</label>
         <select id="province" name="province" >
 			<option value="">Select province</option>
 			<option value="ALX">Al Iskandariyah</option>
@@ -64,16 +72,20 @@
 			</select>
 		</div>
 		<div class="form-group">
+			<label for="exp_years">Experience years</label>
             <input autocomplete="off" class="form-control" id="exp_years" name="exp_years" placeholder="Experience years" type="text">
         </div>
         <div class="form-group">
+			<label for="salary">Salary</label>
             <input autocomplete="off" class="form-control" id="salary" name="salary" placeholder="Salary" type="text">
         </div>
         <div class="form-group">
+			<label for="join_date">Join date</label>
             <input autocomplete="off" class="form-control" id="join_date" name="join_date" type="date">
         </div>
         <div class="form-group">
-			<textarea rows = "5" maxlength = "250" name = "qualification" placeholder="Enter Qualifications here..."></textarea>
+			<label for="qualification">Qualifications</label>
+			<textarea rows = "5" maxlength = "250" id="qualification" name = "qualification" placeholder="Enter Qualifications here..."></textarea>
         </div>
         <button class="btn btn-primary" type="submit">Sumbit</button>
     </form>

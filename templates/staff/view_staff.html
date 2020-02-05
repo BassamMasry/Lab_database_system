@@ -14,12 +14,14 @@
           <th scope="col">name</th>
           <th scope="col">sex</th>
           <th scope="col">Birth date</th>
-          <th scope="col">position</th>
+          <th scope="col">Role</th>
           <th scope="col">Salary</th>
           <th scope="col">Experience years</th>
           <th scope="col">Join date</th>
           <th scope="col">Retirement date</th>
+          <!-- This can be a next version improvment
           <th scope="col">Days of work</th>
+          -->
           <th scope="col">Street</th>
           <th scope="col">Province</th>
           <th scope="col">Phone</th>
@@ -30,7 +32,7 @@
         {% for row in rows %}
         <tr>
         <th scope="row">{{loop.index}}</th>
-        {%for val in row.values() %}
+        {%for val in row%}
         <td>{{val}}</td>
         {% endfor %}
         <tr>

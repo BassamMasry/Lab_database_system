@@ -9,6 +9,7 @@
       <thead>
         <tr>
           <th scope="col">#</th>
+          <th scope="col">ID</th>
           <th scope="col">Patient name</th>
           <th scope="col">Date</th>
           <th scope="col">Test</th>
@@ -18,7 +19,7 @@
         {% for row in rows %}
         <tr>
         <th scope="row">{{loop.index}}</th>
-        {%for val in row.values() %}
+        {%for val in row%}
         <td>{{val}}</td>
         {% endfor %}
         <tr>

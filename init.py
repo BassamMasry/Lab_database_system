@@ -106,7 +106,7 @@ TABLES['a_qualifications'] = ("CREATE TABLE a_qualifications ("
 	" FOREIGN KEY (a_code) REFERENCES analytics(code)"
 	" ON UPDATE CASCADE ON DELETE CASCADE);")
 
-TABLES['other_staff'] = ("CREATE TABLE other_staff ("
+TABLES['staff'] = ("CREATE TABLE staff ("
     " code SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT NOT NULL,"
     " name varchar(80) NOT NULL,"
     " SSN bigint UNSIGNED NOT NULL DEFAULT 0 ,"
@@ -124,22 +124,25 @@ TABLES['other_staff'] = ("CREATE TABLE other_staff ("
 TABLES['s_qualifications'] = ("CREATE TABLE s_qualifications ("
 	" s_code smallint UNSIGNED PRIMARY KEY NOT NULL,"
 	" qualification varchar(255) NOT NULL,"
-	" FOREIGN KEY (s_code) REFERENCES other_staff(code)"
+	" FOREIGN KEY (s_code) REFERENCES staff(code)"
 	" ON UPDATE CASCADE ON DELETE CASCADE);")
 
 TABLES['schedule'] = ("CREATE TABLE schedule ("
 	" code smallint UNSIGNED AUTO_INCREMENT NOT NULL,"
-    " a_code smallint UNSIGNED PRIMARY KEY NOT NULL,"
-    " p_code smallint UNSIGNED PRIMARY KEY NOT NULL,"
-    " date date PRIMARY KEY,"
+    " a_code smallint UNSIGNED NOT NULL,"
+    " p_code smallint UNSIGNED NOT NULL,"
+    " date date,"
+    " KEY(code),"
+    " PRIMARY KEY(a_code, p_code, date),"
 	" FOREIGN KEY (a_code) REFERENCES analytics(code)"
 	" ON UPDATE CASCADE ON DELETE CASCADE,"
     " FOREIGN KEY (p_code) REFERENCES patient_essentials(code)"
 	" ON UPDATE CASCADE ON DELETE CASCADE);")
 
 TABLES['sched_tests'] = ("CREATE TABLE sched_tests ("
-	" sc_code smallint UNSIGNED PRIMARY KEY NOT NULL,"
-	" test ENUM(" + tests + ") PRIMARY KEY NOT NULL,"
+	" sc_code smallint UNSIGNED NOT NULL,"
+	" test ENUM(" + tests + ") NOT NULL,"
+	" PRIMARY KEY(sc_code, test),"
 	" FOREIGN KEY (sc_code) REFERENCES schedule(code)"
 	" ON UPDATE CASCADE ON DELETE CASCADE);")
 

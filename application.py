@@ -346,7 +346,7 @@ def view_device():
         rows = []
         db.execute("SELECT * FROM device_essentials INNER JOIN device_extras ON code = d_code")
         rets = db.fetchall()
-        for idx, ret in enumerate(rets):
+        for ret in rets:
             app = [None] * 10
             # Assign code to first element
             app[0] = ret[0]
@@ -430,7 +430,7 @@ def del_device():
                 return apology("No devices found", 404)
             code = code[0]
             # Delete device
-            db.execute("DELETE FROM device_essentials WHERE code = '{coder}';".format(date = request.form.get("maint_date"), coder = code))
+            db.execute("DELETE FROM device_essentials WHERE code = '{coder}';".format(coder = code))
             # Insert log operation
             logger(db, user, 'device', code, 'delete')
             # commit insertions
@@ -479,8 +479,8 @@ def view_analytic():
         rows = []
         db.execute("SELECT * FROM analytics INNER JOIN a_qualifications ON code = a_code")
         rets = db.fetchall()
-        for idx, ret in enumerate(rets):
-            app = [None] * 15
+        for ret in rets:
+            app = [None] * 14
             # Assign ID to first element
             app[0] = ret[0]
             # Assign name
@@ -494,21 +494,21 @@ def view_analytic():
             # Assign position
             app[5] = ret[5]
             # Assign street
-            app[11] = ret[6]
+            app[10] = ret[6]
             # Assign province
-            app[12] = ret[7]
+            app[11] = ret[7]
             # Assign experience years
             app[7] = ret[8]
             # Assign Salary
             app[6] = ret[9]
             # Assign Phone
-            app[13] = ret[10]
+            app[12] = ret[10]
             # Assign join date
             app[8] = ret[11]
             # Assign retirement date
             app[9] = ret[12]
             # Assign qualification
-            app[14] = ret[14]
+            app[13] = ret[14]
             # append to row
             rows.append(app)
         
@@ -521,12 +521,90 @@ def view_analytic():
 def mod_analytic():
     check_admin_cookies()
     if request.method == "GET":
-        #TODO
-        return apology("Not set", 400)
+        return render_template("analytic/modify_analytic.html")
     
     if request.method == "POST":
-        #TODO
-        return apology("Not set", 400)
+        code = request.form.get("code")
+        salary = request.form.get("salary")
+        position = request.form.get("position")
+        street = request.form.get("street")
+        province = request.form.get("province")
+        exp_years = request.form.get("exp_years")
+        phone = request.form.get("phone")
+        retirement_date = request.form.get("retirement_date")
+        qualification = request.form.get("qualification")
+        
+        string = ""
+        
+        if code == "":
+            return apology("Must enter code", 403)
+            
+        if salary == "":
+            string = ""
+        else:
+            if string != "":
+                string += ", "
+            string = "salary =" + "'" + salary + "'"
+            
+        if position == "":
+            string += ""
+        else:
+            if string != "":
+                string += ", "
+            string += "position =" + "'" + position + "'"
+            
+        if street == "":
+            string += ""
+        else:
+            if string != "":
+                string += ", "
+            string +="street =" + "'" + street + "'"
+            
+        if province == "":
+            string += ""
+        else:
+            if string != "":
+                string += ", "
+            string += "province =" + "'" + province  + "'"
+            
+        if exp_years == "":
+            string += ""
+        else:
+            if string != "":
+                string += ", "
+            string += "exp_years =" + "'" + exp_years + "'"
+            
+        if phone == "":
+            string += ""
+        else:
+            if string != "":
+                string += ", "
+            string += "phone =" + "'" + phone + "'"
+            
+        if retirement_date == "":
+            string += ""
+        else:
+            if string != "":
+                string += ", "
+            string += "retirement_date =" + "'" + retirement_date + "'"
+            
+        
+        
+        logged = False
+        if string != "":    
+            db.execute("UPDATE analytics SET " + string + " WHERE code = '{coder}';".format(coder = code))
+            logged = True
+        
+        if qualification != "":
+            db.execute("UPDATE a_qualifications SET qualification = '{qual}' WHERE a_code = '{coder}';".format(qual = qualification, coder = code))
+            logged = True
+        
+        if logged == True:
+            logger(db,session.get("admin"),'analytic',code,'modify')
+        
+        cnx.commit()
+            
+        return redirect("/")
 
 
 
@@ -535,12 +613,39 @@ def mod_analytic():
 def del_analytic():
     check_admin_cookies()
     if request.method == "GET":
-        #TODO
-        return apology("Not set", 400)
+        return render_template("analytic/delete_analytic.html")
     
     if request.method == "POST":
-        #TODO
-        return apology("Not set", 400)
+        user = session.get("admin")
+        passer = request.form.get("password")
+        # Ensure password was submitted
+        if not passer:
+            return apology("must provide password", 403)
+        # Ensure confirmation was submitted
+        elif not request.form.get("confirmation"):
+            return apology("must provide confirmation", 400)
+        # Check whether the password and confirmation match
+        elif request.form.get("password") != request.form.get("confirmation"):
+            return apology("password and confirmation do not match", 400)
+        #check if the admin is the one who signed in
+        chck_admin1 = os.environ.get("admin1_user") == user and os.environ.get("admin1_pass") == passer
+        chck_admin2 = os.environ.get("admin2_user") == user and os.environ.get("admin2_pass") == passer
+        chck_admin3 = os.environ.get("admin3_user") == user and os.environ.get("admin3_pass") == passer
+        if chck_admin1 or chck_admin2 or chck_admin3:
+            # Make sure the analytic exist
+            db.execute("SELECT code FROM analytics WHERE code = '{code}';".format(code = request.form.get("code")))
+            code = db.fetchone()
+            if code is None:
+                return apology("No analytics found", 404)
+            code = code[0]
+            # Delete analytic
+            db.execute("DELETE FROM analytics WHERE code = '{coder}';".format(coder = code))
+            # Insert log operation
+            logger(db, user, 'analytic', code, 'delete')
+            # commit insertions
+            cnx.commit()
+            return redirect("/")
+        return apology("Wrong Credentials", 400)
 
 
 
@@ -548,30 +653,7 @@ def del_analytic():
 @admin_required
 def staff():
     check_admin_cookies()
-    #TODO
-    return apology("Not set", 400)
-
-
-@app.route("/view_staff")
-@admin_required
-def view_staff():
-    check_admin_cookies()
-    #TODO
-    return apology("Not set", 400)
-
-
-@app.route("/modify_staff", methods=["GET", "POST"])
-@admin_required
-def mod_staff():
-    check_admin_cookies()
-    if request.method == "GET":
-        #TODO
-        return apology("Not set", 400)
-    
-    if request.method == "POST":
-        #TODO
-        return apology("Not set", 400)
-
+    return render_template("staff/staff.html")
 
 
 @app.route("/add_staff", methods=["GET", "POST"])
@@ -579,13 +661,160 @@ def mod_staff():
 def add_staff():
     check_admin_cookies()
     if request.method == "GET":
-        #TODO
-        return apology("Not set", 400)
+        return render_template("staff/add_staff.html")
     
     if request.method == "POST":
-        #TODO
-        return apology("Not set", 400)
+        db.execute("insert into staff (name,SSN,sex,bdate,role,street,province,exp_years,salary,phone,join_date)"
+                   "values ('{name}', '{SSN}', '{sex}','{bdate}','{role}','{street}','{province}','{exp_years}','{salary}','{phone}','{join_date}');".format(name = request.form.get("name"), SSN = request.form.get("SSN"), sex = request.form.get("sex"), bdate = request.form.get("bdate"), role = request.form.get("role"), street = request.form.get("street"), province = request.form.get("province"), exp_years = request.form.get("exp_years"), salary = request.form.get("salary"), phone = request.form.get("phone"), join_date = request.form.get("join_date")))
+        # Get the unique code of the current staff
+        db.execute("SELECT max(code) FROM staff where name = '{name}';".format(name = request.form.get("name")))
+        code = db.fetchone()[0]
+        # Insert extras in table
+        db.execute("insert into s_qualifications (s_code, qualification)"
+                   "values ('{coder}', '{qual}');".format(coder = code, qual = request.form.get("qualification")))
+        # Insert log operation
+        logger(db,session.get("admin"),'staff',code,'add')
+        # commit insertions
+        cnx.commit()
+        return redirect("/")
 
+
+@app.route("/view_staff")
+@admin_required
+def view_staff():
+    check_admin_cookies()
+    if request.method == "GET":
+        # Make row list to include data of patient
+        rows = []
+        db.execute("SELECT * FROM staff INNER JOIN s_qualifications ON code = s_code")
+        rets = db.fetchall()
+        for ret in rets:
+            app = [None] * 14
+            # Assign ID to first element
+            app[0] = ret[0]
+            # Assign name
+            app[2] = ret[1]
+            # Assign SSN
+            app[1] = ret[2]
+            # Assign sex
+            app[3] = ret[3]
+            # Assign birth date
+            app[4] = ret[4]
+            # Assign role
+            app[5] = ret[5]
+            # Assign street
+            app[10] = ret[6]
+            # Assign province
+            app[11] = ret[7]
+            # Assign experience years
+            app[7] = ret[8]
+            # Assign Salary
+            app[6] = ret[9]
+            # Assign Phone
+            app[12] = ret[10]
+            # Assign join date
+            app[8] = ret[11]
+            # Assign retirement date
+            app[9] = ret[12]
+            # Assign qualification
+            app[13] = ret[14]
+            # append to row
+            rows.append(app)
+        
+        return render_template("staff/view_staff.html", rows = rows)
+    return apology("Not set", 400)
+
+
+
+@app.route("/modify_staff", methods=["GET", "POST"])
+@admin_required
+def mod_staff():
+    check_admin_cookies()
+    if request.method == "GET":
+        return render_template("staff/modify_staff.html")
+    
+    if request.method == "POST":
+        code = request.form.get("code")
+        salary = request.form.get("salary")
+        role = request.form.get("role")
+        street = request.form.get("street")
+        province = request.form.get("province")
+        exp_years = request.form.get("exp_years")
+        phone = request.form.get("phone")
+        retirement_date = request.form.get("retirement_date")
+        qualification = request.form.get("qualification")
+        
+        string = ""
+        
+        if code == "":
+            return apology("Must enter code", 403)
+            
+        if salary == "":
+            string = ""
+        else:
+            if string != "":
+                string += ", "
+            string = "salary =" + "'" + salary + "'"
+            
+        if role == "":
+            string += ""
+        else:
+            if string != "":
+                string += ", "
+            string += "role =" + "'" + role + "'"
+            
+        if street == "":
+            string += ""
+        else:
+            if string != "":
+                string += ", "
+            string +="street =" + "'" + street + "'"
+            
+        if province == "":
+            string += ""
+        else:
+            if string != "":
+                string += ", "
+            string += "province =" + "'" + province  + "'"
+            
+        if exp_years == "":
+            string += ""
+        else:
+            if string != "":
+                string += ", "
+            string += "exp_years =" + "'" + exp_years + "'"
+            
+        if phone == "":
+            string += ""
+        else:
+            if string != "":
+                string += ", "
+            string += "phone =" + "'" + phone + "'"
+            
+        if retirement_date == "":
+            string += ""
+        else:
+            if string != "":
+                string += ", "
+            string += "retirement_date =" + "'" + retirement_date + "'"
+            
+        
+        
+        logged = False
+        if string != "":    
+            db.execute("UPDATE staff SET " + string + " WHERE code = '{coder}';".format(coder = code))
+            logged = True
+        
+        if qualification != "":
+            db.execute("UPDATE s_qualifications SET qualification = '{qual}' WHERE a_code = '{coder}';".format(qual = qualification, coder = code))
+            logged = True
+        
+        if logged == True:
+            logger(db,session.get("admin"),'staff',code,'modify')
+        
+        cnx.commit()
+            
+        return redirect("/")
 
 
 @app.route("/delete_staff", methods=["GET", "POST"])
@@ -593,15 +822,43 @@ def add_staff():
 def del_staff():
     check_admin_cookies()
     if request.method == "GET":
-        #TODO
-        return apology("Not set", 400)
+        return render_template("staff/delete_staff.html")
     
     if request.method == "POST":
-        #TODO
-        return apology("Not set", 400)
+        user = session.get("admin")
+        passer = request.form.get("password")
+        # Ensure password was submitted
+        if not passer:
+            return apology("must provide password", 403)
+        # Ensure confirmation was submitted
+        elif not request.form.get("confirmation"):
+            return apology("must provide confirmation", 400)
+        # Check whether the password and confirmation match
+        elif request.form.get("password") != request.form.get("confirmation"):
+            return apology("password and confirmation do not match", 400)
+        #check if the admin is the one who signed in
+        chck_admin1 = os.environ.get("admin1_user") == user and os.environ.get("admin1_pass") == passer
+        chck_admin2 = os.environ.get("admin2_user") == user and os.environ.get("admin2_pass") == passer
+        chck_admin3 = os.environ.get("admin3_user") == user and os.environ.get("admin3_pass") == passer
+        if chck_admin1 or chck_admin2 or chck_admin3:
+            # Make sure the staff exist
+            db.execute("SELECT code FROM staff WHERE code = '{code}';".format(code = request.form.get("code")))
+            code = db.fetchone()
+            if code is None:
+                return apology("No staff found", 404)
+            code = code[0]
+            # Delete staff
+            db.execute("DELETE FROM staff WHERE code = '{coder}';".format(coder = code))
+            # Insert log operation
+            logger(db, user, 'staff', code, 'delete')
+            # commit insertions
+            cnx.commit()
+            return redirect("/")
+        return apology("Wrong Credentials", 400)
 
 
-
+# Dependents can be an improvement in next versions
+'''
 @app.route("/depend")
 @admin_required
 def depend():
@@ -642,34 +899,60 @@ def del_depend():
     if request.method == "POST":
         #TODO
         return apology("Not set", 400)
+'''
+# Dependents part done
 
-
-@app.route("/schedule", methods=["GET", "POST"])
+@app.route("/schedule")
 @admin_required
 def schedule():
-    if request.method == "GET":
-        #TODO
-        return apology("Not set", 400)
+    check_admin_cookies()
+    # Make row list to include data of patient
+    rows = []
+    db.execute("SELECT schedule.code,name,date,test FROM schedule INNER JOIN patient_essentials ON p_code = patient_essentials.code INNER JOIN sched_tests ON schedule.code = sc_code;")
+    rets = db.fetchall()
+    for ret in rets:
+        app = [None] * 4
+        # Assign ID to first element
+        app[0] = ret[0]
+        # Assign name
+        app[2] = ret[3]
+        # Assign Date
+        app[1] = ret[1]
+        # Assign test
+        app[3] = ret[3]
+        rows.append(app)
     
-    if request.method == "POST":
-        #TODO
-        return apology("Not set", 400)
-    
+    return render_template("control/schedule_view.html", rows = rows)
+
 
 @app.route("/tests")
 @admin_required
 def tests():
     check_admin_cookies()
-    #TODO
-    return apology("Not set", 400)
+    return render_template("tests/test.html")
 
 
 @app.route("/view_tests")
 @admin_required
 def view_tests():
     check_admin_cookies()
-    #TODO
-    return apology("Not set", 400)
+    # Make row list to include data of patient
+    rows = []
+    db.execute("SELECT schedule.code,name,date,test FROM schedule INNER JOIN patient_essentials ON p_code = patient_essentials.code INNER JOIN sched_tests ON schedule.code = sc_code;")
+    rets = db.fetchall()
+    for ret in rets:
+        app = [None] * 4
+        # Assign ID to first element
+        app[0] = ret[0]
+        # Assign name
+        app[2] = ret[3]
+        # Assign Date
+        app[1] = ret[1]
+        # Assign test
+        app[3] = ret[3]
+        rows.append(app)
+    
+    return render_template("tests/view_tests.html", rows = rows)
 
 
 @app.route("/add_result", methods=["GET", "POST"])
@@ -684,7 +967,8 @@ def add_result():
         #TODO
         return apology("Not set", 400)
 
-
+# medical condition can be an improvement in next versions
+'''
 @app.route("/add_medcon", methods=["GET", "POST"])
 @admin_required
 def add_medcon():
@@ -696,14 +980,16 @@ def add_medcon():
     if request.method == "POST":
         #TODO
         return apology("Not set", 400)
-
+'''
 
 @app.route("/log")
 @admin_required
 def log():
     check_admin_cookies()
-    #TODO
-    return apology("Not set", 400)
+    db.execute("SELECT * FROM log")
+    rows = db.fetchall()
+    return render_template("control/log.html", rows = rows)
+    
 
 @app.route("/book_test")
 @login_required
